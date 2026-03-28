@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💌 Sorry Letter for Varalakshmi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════
+   BASE RESET & BODY
+═══════════════════════════════ */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  min-height: 100vh;
+  background: #110614;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(80,0,80,0.85) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(60,0,40,0.9)  0%, transparent 55%),
+    radial-gradient(ellipse at 55% 50%, rgba(30,0,50,0.55) 0%, transparent 70%);
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 30px 16px 80px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ═══════════════════════════════
+   BACKGROUND PARTICLES
+═══════════════════════════════ */
+
+/* Stars */
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: starTwinkle ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes starTwinkle {
+  0%,100% { opacity:0; transform:scale(0.4); }
+  50%      { opacity:0.85; transform:scale(1); }
+}
+
+/* Falling hearts & flowers */
+.fheart {
+  position: fixed;
+  opacity: 0;
+  animation: fallHeart linear infinite;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+@keyframes fallHeart {
+  0%   { opacity:0;   transform:translateY(-30px) rotate(0deg); }
+  8%   { opacity:0.9; }
+  92%  { opacity:0.5; }
+  100% { opacity:0;   transform:translateY(110vh) rotate(540deg); }
+}
+
+/* Fireflies */
+.firefly {
+  position: fixed;
+  width: 5px; height: 5px;
+  background: radial-gradient(circle, #ffe566 30%, transparent 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 4px rgba(255,229,102,0.65);
+  animation: fireflyMove ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes fireflyMove {
+  0%   { opacity:0; transform:translate(0,0); }
+  20%  { opacity:1; }
+  50%  { opacity:0.8; transform:translate(var(--dx), var(--dy)); }
+  80%  { opacity:1; }
+  100% { opacity:0; transform:translate(var(--dx2), var(--dy2)); }
+}
+
+/* ═══════════════════════════════
+   MUSIC PLAYER (fixed top-right)
+═══════════════════════════════ */
+.music-player {
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(18,4,28,0.88);
+  border: 1.5px solid rgba(255,107,157,0.45);
+  border-radius: 50px;
+  padding: 8px 16px 8px 9px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 4px 28px rgba(0,0,0,0.6), 0 0 20px rgba(255,61,127,0.2);
+  animation: fadeUp 0.8s 3.8s both;
+  opacity: 0;
+  cursor: default;
+}
+
+.music-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%; border: none;
+  background: linear-gradient(135deg, #ff3d7f, #c77dff);
+  color: white; font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(255,61,127,0.55);
+  flex-shrink: 0;
+  outline: none;
+}
+.music-btn:hover  { transform:scale(1.12); box-shadow:0 4px 18px rgba(255,61,127,0.85); }
+.music-btn:active { transform:scale(0.95); }
+
+.music-info {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.music-title { font-size:11px; font-weight:700; color:white; letter-spacing:0.04em; white-space:nowrap; }
+.music-sub   { font-size:9px;  color:rgba(255,180,210,0.8); letter-spacing:0.03em; }
+
+/* Animated waveform bars */
+.waveform {
+  display: flex; align-items: center; gap: 2.5px; height: 20px;
+}
+.wave-bar {
+  width: 3px; border-radius: 3px;
+  background: linear-gradient(to top, #ff3d7f, #c77dff);
+  animation: wavePulse 0.75s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.wave-bar:nth-child(1){ height:6px;  animation-delay:0s;    }
+.wave-bar:nth-child(2){ height:14px; animation-delay:0.11s; }
+.wave-bar:nth-child(3){ height:9px;  animation-delay:0.22s; }
+.wave-bar:nth-child(4){ height:18px; animation-delay:0.33s; }
+.wave-bar:nth-child(5){ height:8px;  animation-delay:0.44s; }
+.wave-bar:nth-child(6){ height:13px; animation-delay:0.16s; }
+.wave-bar:nth-child(7){ height:5px;  animation-delay:0.27s; }
+@keyframes wavePulse {
+  0%,100% { transform:scaleY(0.32); opacity:0.42; }
+  50%     { transform:scaleY(1);    opacity:1; }
+}
+.waveform.paused .wave-bar {
+  animation-play-state: paused;
+  transform: scaleY(0.28);
+  opacity: 0.28;
+}
+
+/* ═══════════════════════════════
+   SCENE & ENVELOPE
+═══════════════════════════════ */
+.scene {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  z-index: 10;
+}
+
+.env-shell {
+  animation: envDrop 1.3s cubic-bezier(.22,1,.36,1) both;
+  opacity: 0;
+}
+@keyframes envDrop {
+  from { opacity:0; transform:translateY(-100px) rotate(-6deg) scale(0.85); }
+  to   { opacity:1; transform:translateY(0) rotate(0deg) scale(1); }
+}
+
+.env-body {
+  background: linear-gradient(150deg, #c2185b, #880e4f);
+  border-radius: 14px;
+  padding: 20px 20px 42px;
+  position: relative;
+  box-shadow:
+    0 30px 80px rgba(150,0,70,0.65),
+    0 8px 20px rgba(0,0,0,0.65),
+    inset 0 2px 0 rgba(255,160,200,0.25);
+}
+
+/* Flap */
+.env-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  border-left: 300px solid transparent;
+  border-right: 300px solid transparent;
+  border-top: 130px solid #ad1457;
+  transform-origin: top center;
+  animation: flapOpen 1.1s 0.9s cubic-bezier(.22,1,.36,1) both;
+  z-index: 5;
+}
+@keyframes flapOpen {
+  from { transform:perspective(700px) rotateX(0deg); }
+  to   { transform:perspective(700px) rotateX(-165deg); }
+}
+
+/* Lining */
+.env-lining {
+  position: absolute;
+  inset: 20px 20px 42px;
+  background: linear-gradient(135deg, #ffeef4, #ffd6e7);
+  border-radius: 8px;
+}
+
+/* Letter slides up */
+.letter-slide {
+  position: relative;
+  z-index: 10;
+  animation: letterSlideUp 1.3s 1.5s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes letterSlideUp {
+  from { transform:translateY(55px); opacity:0; }
+  to   { transform:translateY(0);    opacity:1; }
+}
+
+/* ═══════════════════════════════
+   THE LETTER
+═══════════════════════════════ */
+.letter {
+  background: #fffaf5;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 28px 70px rgba(0,0,0,0.58),
+    0 6px 20px rgba(180,0,80,0.28);
+}
+
+/* Rotating rainbow border */
+.letter-border {
+  position: absolute; inset: 0;
+  border-radius: 10px;
+  padding: 3px;
+  background: linear-gradient(var(--angle,0deg), #ffd700, #ff6b9d, #c77dff, #66d9ff, #ff6b9d, #ffd700);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderRotate 4s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+@property --angle { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+@keyframes borderRotate { to { --angle:360deg; } }
+
+/* Inner soft border */
+.letter-border2 {
+  position: absolute; inset: 12px;
+  border: 1.5px solid rgba(255,107,157,0.22);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Inner padding */
+.letter-inner {
+  padding: 60px 50px 52px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Big SORRY watermark ── */
+.sorry-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(90px, 24vw, 155px);
+  font-weight: 700;
+  color: transparent;
+  background: linear-gradient(
+    135deg,
+    #ff3d7f 0%,
+    #ff9500 20%,
+    #ffd700 38%,
+    #c77dff 55%,
+    #66d9ff 72%,
+    #ff6b9d 88%,
+    #ff3d7f 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 2px transparent;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  letter-spacing: 10px;
+  opacity: 0.22;
+  filter: blur(0.4px) drop-shadow(0 0 18px rgba(255,61,127,0.35)) drop-shadow(0 0 40px rgba(199,125,255,0.25));
+  animation: sorryShift 5s ease-in-out infinite, sorryPulse 3.5s ease-in-out infinite;
+}
+@keyframes sorryShift {
+  0%,100% { background-position: 0% 50%; }
+  50%     { background-position: 100% 50%; }
+}
+@keyframes sorryPulse {
+  0%,100% { opacity:0.18; transform: translate(-50%,-50%) rotate(-28deg) scale(1); }
+  50%     { opacity:0.32; transform: translate(-50%,-50%) rotate(-28deg) scale(1.05); }
+}
+
+/* Corner florals */
+.orn {
+  position: absolute;
+  font-size: 32px;
+  z-index: 4;
+  filter: drop-shadow(0 2px 10px rgba(255,107,157,0.7));
+  animation: ornPulse 3s ease-in-out infinite;
+}
+.orn.tl { top:18px;    left:18px;  }
+.orn.tr { top:18px;    right:18px; transform:scaleX(-1);    animation-delay:.6s;  }
+.orn.bl { bottom:18px; left:18px;  transform:scaleY(-1);    animation-delay:1.2s; }
+.orn.br { bottom:18px; right:18px; transform:scale(-1,-1);  animation-delay:1.8s; }
+@keyframes ornPulse   { 0%,100%{transform:scale(1);          filter:drop-shadow(0 2px 8px  rgba(255,107,157,0.5));} 50%{transform:scale(1.15);         filter:drop-shadow(0 4px 16px rgba(255,107,157,1));} }
+@keyframes ornPulseR  { 0%,100%{transform:scaleX(-1) scale(1);} 50%{transform:scaleX(-1) scale(1.15);} }
+@keyframes ornPulseB  { 0%,100%{transform:scaleY(-1) scale(1);} 50%{transform:scaleY(-1) scale(1.15);} }
+@keyframes ornPulseBR { 0%,100%{transform:scale(-1,-1) scale(1);} 50%{transform:scale(-1,-1) scale(1.15);} }
+.orn.tr { animation-name:ornPulseR; }
+.orn.bl { animation-name:ornPulseB; }
+.orn.br { animation-name:ornPulseBR; }
+
+/* Stamp */
+.stamp {
+  position: absolute;
+  top:22px; right:22px;
+  background: rgba(255,61,127,0.08);
+  border: 2px solid rgba(255,107,157,0.45);
+  border-radius: 6px;
+  padding: 6px 12px;
+  text-align: center;
+  transform: rotate(10deg);
+  animation: stampWobble 5s ease-in-out infinite;
+  z-index: 5;
+}
+.stamp .s-icon { font-size:20px; display:block; }
+.stamp .s-text { font-size:8px; color:#e91e8c; font-weight:900; letter-spacing:2px; margin-top:2px; }
+@keyframes stampWobble {
+  0%,100% { transform:rotate(10deg); }
+  50%     { transform:rotate(6deg) scale(1.06); }
+}
+
+/* Ribbon */
+.ribbon {
+  position: absolute;
+  top:28px; left:50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #ff3d7f, #c77dff, #ff9500, #ff3d7f);
+  background-size: 300% 100%;
+  color: white;
+  font-family: 'Dancing Script', cursive;
+  font-size: 13px; font-weight:700;
+  padding: 5px 22px;
+  border-radius: 20px;
+  white-space: nowrap;
+  z-index: 5;
+  box-shadow: 0 3px 14px rgba(255,61,127,0.55);
+  animation: ribbonShimmer 3s linear infinite, fadeUp 0.6s 2.2s both;
+  opacity: 0;
+}
+@keyframes ribbonShimmer { to { background-position:300% 0; } }
+
+/* To line */
+.to-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color:#9a4060; font-size:16px;
+  opacity:0; animation:fadeUp 0.7s 2.3s both;
+}
+
+/* Name */
+.name-heading {
+  font-family: 'Dancing Script', cursive;
+  font-size: 50px; font-weight:700; line-height:1.1;
+  background: linear-gradient(135deg, #ff3d7f 0%, #c77dff 50%, #ff9500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 10px rgba(255,61,127,0.35));
+  opacity:0; animation:fadeUp 0.7s 2.4s both;
+}
+
+/* Greeting */
+.greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size:20px; color:#7a2040; margin-top:4px;
+  opacity:0; animation:fadeUp 0.7s 2.5s both;
+}
+
+/* Dividers */
+.divider {
+  display:flex; align-items:center; gap:10px; margin:22px 0;
+  opacity:0; animation:fadeUp 0.7s 2.6s both;
+}
+.div-line { flex:1; height:1px; background:linear-gradient(to right,transparent,#ffaacc,transparent); }
+.div-c    { font-size:16px; display:flex; gap:5px; letter-spacing:4px; }
+.divider.d2 { animation-delay:2.85s; }
+
+/* Message */
+.message-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; line-height:2; color:#2a0a1a;
+  min-height: 180px; padding:14px;
+  border: 1.5px dashed transparent; border-radius:8px;
+  outline: none; cursor:text; background:transparent;
+  transition: border-color 0.3s, background 0.3s;
+  opacity:0; animation:fadeUp 0.7s 2.7s both;
+}
+.message-body:focus {
+  border-color: rgba(255,107,157,0.4);
+  background: rgba(255,224,235,0.2);
+}
+.message-body:empty::before {
+  content: attr(data-placeholder);
+  color: #ffaacc;
+  pointer-events: none;
+}
+
+.edit-hint {
+  font-size:11px; color:#cc8899; text-align:right; font-style:italic; margin-top:-6px;
+  opacity:0; animation:fadeUp 0.7s 2.75s both;
+}
+
+/* Signature */
+.sig-area {
+  text-align:right; margin-top:20px;
+  opacity:0; animation:fadeUp 0.7s 2.9s both;
+}
+.sig-label {
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic; color:#9a4060; font-size:15px;
+}
+.sig-name {
+  font-family:'Dancing Script',cursive;
+  font-size:28px; font-weight:700; color:#d63080;
+  border:none; border-bottom:2px dashed rgba(214,48,128,0.35);
+  background:transparent; outline:none;
+  text-align:right; width:210px; padding:2px 4px; cursor:text;
+}
+
+/* Hearts row */
+.hearts-row {
+  text-align:center; font-size:24px; letter-spacing:8px; margin-top:22px;
+  opacity:0; animation:fadeUp 0.7s 3s both;
+}
+.hearts-row span { display:inline-block; animation:heartPop 2s ease-in-out infinite; }
+.hearts-row span:nth-child(2){ animation-delay:.35s; }
+.hearts-row span:nth-child(3){ animation-delay:.7s;  }
+.hearts-row span:nth-child(4){ animation-delay:1.05s;}
+.hearts-row span:nth-child(5){ animation-delay:1.4s; }
+@keyframes heartPop {
+  0%,100%{ transform:scale(1); }
+  38%    { transform:scale(1.38); }
+}
+
+/* Wax seal */
+.seal {
+  width:74px; height:74px;
+  background: radial-gradient(circle at 35% 32%, #ff6b9d, #9c0040);
+  border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px;
+  box-shadow:
+    0 0 0 4px #ffd700,
+    0 0 0 6px rgba(255,215,0,0.22),
+    0 0 32px rgba(255,107,157,0.9),
+    0 10px 30px rgba(0,0,0,0.45);
+  margin: 28px auto 0;
+  opacity:0;
+  animation: sealPop 0.9s 3.2s cubic-bezier(.22,1,.36,1) both, sealGlow 2.6s 3.2s ease-in-out infinite;
+}
+@keyframes sealPop {
+  from { opacity:0; transform:scale(0) rotate(-180deg); }
+  to   { opacity:1; transform:scale(1)  rotate(0deg);   }
+}
+@keyframes sealGlow {
+  0%,100%{ box-shadow:0 0 0 4px #ffd700, 0 0 0 6px rgba(255,215,0,0.2), 0 0 24px rgba(255,107,157,0.7), 0 10px 30px rgba(0,0,0,0.45); }
+  50%    { box-shadow:0 0 0 4px #ffd700, 0 0 0 8px rgba(255,215,0,0.3), 0 0 52px rgba(255,107,157,1),   0 10px 30px rgba(0,0,0,0.45); }
+}
+
+/* ═══════════════════════════════
+   SHARE BAR & BUTTONS
+═══════════════════════════════ */
+.share-bar {
+  margin-top:30px;
+  display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.8s 3.5s both;
+  position:relative; z-index:10;
+}
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 24px; border:none; border-radius:50px;
+  font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; letter-spacing:0.02em;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover  { transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,0,0,0.4); }
+.btn:active { transform:scale(0.95); }
+.btn-copy     { background:linear-gradient(135deg,#ff3d7f,#c77dff); color:white; box-shadow:0 4px 18px rgba(255,61,127,0.4); }
+.btn-share    { background:linear-gradient(135deg,#ffd700,#ff9500); color:#1a0a0a; box-shadow:0 4px 18px rgba(255,200,0,0.35); }
+.btn-download { background:rgba(255,255,255,0.08); color:white; border:1.5px solid rgba(255,107,157,0.5); backdrop-filter:blur(12px); }
+
+/* ═══════════════════════════════
+   TOAST
+═══════════════════════════════ */
+.toast {
+  position:fixed; bottom:32px; left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,#ff3d7f,#c77dff);
+  color:white; padding:12px 28px; border-radius:50px; font-size:14px;
+  opacity:0; transition:all 0.4s cubic-bezier(.22,1,.36,1);
+  pointer-events:none; z-index:9999;
+  box-shadow:0 8px 24px rgba(255,61,127,0.5);
+  white-space:nowrap;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ═══════════════════════════════
+   UTILITY
+═══════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media(max-width:500px){
+  .letter-inner { padding:50px 26px 44px; }
+  .name-heading { font-size:38px; }
+  .env-flap     { border-left-width:200px; border-right-width:200px; border-top-width:110px; }
+  .music-player { top:10px; right:10px; padding:6px 12px 6px 8px; }
+  .music-title  { font-size:10px; }
+}
+
+</style>
+</head>
+<body>
+
+<audio id="bgAudio" loop style="display:none"></audio>
+
+<!-- MUSIC PLAYER -->
+<div class="music-player" id="musicPlayer">
+  
+  <div id="uploadPrompt" style="display:flex;align-items:center;gap:10px;">
+    <span style="font-size:20px;">🎵</span>
+    <div><div class="music-title">Add Your Song</div><div class="music-sub">Click + to pick from your PC</div></div>
+    <label class="music-btn" for="songPicker" style="cursor:pointer;font-size:18px;line-height:1;">＋</label>
+    <input type="file" id="songPicker" accept="audio/*" style="display:none" onchange="loadSong(this)">
+  </div>
+  <div id="playerUI" style="display:none;align-items:center;gap:10px;">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶</button>
+    <div class="music-info">
+      <span class="music-title" id="songName">🎵 Your Song</span>
+      <span class="music-sub">Looping for Varalakshmi 💕</span>
+    </div>
+    <div class="waveform paused" id="waveform">
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <label for="songPicker2" style="cursor:pointer;font-size:13px;color:rgba(255,180,210,0.7);">✎</label>
+    <input type="file" id="songPicker2" accept="audio/*" style="display:none" onchange="loadSong(this)">
+  </div>
+</div>
+
+<!-- ENVELOPE + LETTER -->
+<div class="scene">
+  <div class="env-shell">
+    <div class="env-body">
+      <div class="env-lining"></div>
+      <div class="env-flap"></div>
+      <div class="letter-slide">
+        <div class="letter">
+          <div class="letter-border"></div>
+          <div class="letter-border2"></div>
+          <div class="orn tl">🌸</div>
+          <div class="orn tr">🌸</div>
+          <div class="orn bl">🌹</div>
+          <div class="orn br">🌹</div>
+          <div class="stamp"><span class="s-icon">💌</span><span class="s-text">SORRY</span></div>
+          <div class="ribbon">✨ From My Heart To Yours ✨</div>
+          <div class="letter-inner">
+            <p class="to-line">To my dearest,</p>
+            <h1 class="name-heading">Varalakshmi 💕</h1>
+            <p class="greeting">I'm truly, deeply sorry… 🥺</p>
+            <div class="divider"><div class="div-line"></div><div class="div-c">🌷 💖 🌷</div><div class="div-line"></div></div>
+            <div class="message-body">Firstly Sorry for behaving  like that. I dont know what to do at that time so i talked like that.
+
+
+... today i want to explain what i feel what i faced. Let me explain my side. nenu ninnu artham cheskunta lenu ankuntunnav once imagine oka person manatho matladali ani day antha wait chesi  ah person ki dry replys osthe em anukuntunadu asalu manatho matladalani istam undha vellakki anukuntadu. and ah situation ela untadho imagine. nuvvu ekkadiki ayina vellavante reach ayyava ledha safe ga ani tesion untadhi, kani nuvvu i can take care of myself annapudu it hurts. you can take care of yourself but ni gurinchi care chese person ki tesion matram untadhi. ah caring lekapothe waste.  Alage yendhuko thelidhu kani nitho anni adhi idhi chinna vishyam ayina pedha vishyam ayina share chesukovali anipisthadhi andhuke neku uke msg chestha. But ala dry replies osthe yevarikaina share chesukovali anipisthadha cheppu . thanu happy ga unte chalu le endhuku manam uke msg chesi disturb cheyadam endhuku anipisthadhi .Even though i stayed normal many times. I tried to stay distant. I tried to convince myself .But i'm Not. I don't even know how to explain this properly. It's not like i want to complicate things. I just... miss talking to you. There are so many things I stop myself from saying everyday. So many times I pick up my phone... and then put it down again many times but that day it felt too heavy carry all these. So ninnu ibbandhi pettakudadhu ani i decided not to talk with you,i know how heavy it feels. And aroju that means monday  inka  nitho matladakunda unadali ani decide ayya day motham nannu nenu convince chesukunna, nitho matladakudadhu ani inka ni gurinchi alochinchkudadhu ani ,But i Can't inni years ga matladukuntu undi sudden ga ah person tho matladadam apiyeli ante i can't digest that.Nuvvu nammuthovo ledho kani  ah roju night  nidhra pattale ,endhuko thelidhu kani heart antha chala weight ga  ayipoyindhi edho oka pedha banda rayi pettinattu,  lechi water thaga ala bayata walking chestu  realize ayya, manam enni anukunna waste avathalavalaki intrest lennapudu manamu em cheyalemu ani.I dont even know ivvani cheppalo ledho ani, kani cheppa kadha naku anni nitho share chesukovali anipisthadhi ani. I dont know this is right or wrong. Appudu anipisthadhi naki kuda oka msg ravali ani. May be one day you will realize how hard it was for me from my perspective. and 
+Nuvvu anukovachu anni chesthadu malli sorry chepthadu ani but enni tikka veshalu vesina, em chesina, nuvvu tappa nannu inkevaru artham chesukuntaru Thikkamma. 
+Niku cheppocho ledho thelidhu kani naku verevallatho yela matladalo thelidhu anthendhuku nitho kuda  ela matladalo thelidhu.
+Sorry Thikkamma anandhuku.
+
+
+I want to ask something Nuvvu untava natho matladakunda?
+
+ika ninnu distrub cheyanu and niku msg cheyanu, neeku matladalani ani pisthe you can text me but adhi niku istam untene otherwise, leave it 
+nenu inka alavatu chesukunta nitho matladakunda undataniki i know i can't but there is no way.
+
+nenu em matladuthunnano emo nake artham aythaledhu.............edhedho chepthunna...
+The last thing ninnu eppudu hurt cheyalani matram ela cheyyaledhu. Nuvvu  happy ga unte chalu ekkadunna. 
+By the way I don't Force you to talk with me and chat with me.
+I hope you understand my situation.
+
+Thank you for Reading this message.......chala pedhaga undhi i know.....but i want you to read this message...
+
+            <div class="divider d2">
+              <div class="div-line"></div>
+              <div class="div-c">✨ 🌸 ✨</div>
+              <div class="div-line"></div>
+            </div>
+
+            <!-- EDITABLE SIGNATURE -->
+            <div class="sig-area">
+              <p class="sig-label">your's always supporter,</p>
+              <input class="sig-name" type="text" value="Anil Kumar" spellcheck="false">
+            </div>
+
+            <!-- Pulsing hearts -->
+            <div class="hearts-row">
+              <span>💗</span><span>💖</span><span>💝</span><span>💖</span><span>💗</span>
+            </div>
+
+          </div>
+            <div class="divider d2"><div class="div-line"></div><div class="div-c">✨ 🌸 ✨</div><div class="div-line"></div></div>
+            
+            
+          <div class="seal">🌹</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="share-bar">
+  <button class="btn btn-download" onclick="alert('You already have the final file!')">💾 Downloaded ✓</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const audio = document.getElementById('bgAudio');
+
+/* ── Auto-play song on first click (browser policy) ── */
+
+/* ── Song loader for non-embedded version ── */
+function loadSong(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    audio.src  = e.target.result;
+    audio.loop = true;
+    var nm = file.name.replace(/\.[^.]+$/, '');
+    document.getElementById('songName').textContent = '🎵 ' + (nm.length > 22 ? nm.slice(0,20)+'…' : nm);
+    document.getElementById('uploadPrompt').style.display = 'none';
+    document.getElementById('playerUI').style.display     = 'flex';
+    audio.play().then(function() {
+      document.getElementById('musicBtn').textContent = '⏸';
+      document.getElementById('waveform').classList.remove('paused');
+    }).catch(function(){});
+  };
+  reader.readAsDataURL(file);
+}
+
+
+function toggleMusic() {
+  if (audio.paused) {
+    audio.play().then(function() {
+      document.getElementById('musicBtn').textContent = '⏸';
+      document.getElementById('waveform').classList.remove('paused');
+    });
+  } else {
+    audio.pause();
+    document.getElementById('musicBtn').textContent = '▶';
+    document.getElementById('waveform').classList.add('paused');
+  }
+}
+
+/* ── Particles ── */
+for (var i=0;i<90;i++){var s=document.createElement('div');s.className='star';var sz=Math.random()*2.5+0.5;s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'vw;top:'+Math.random()*100+'vh;animation-duration:'+(1.5+Math.random()*3)+'s;animation-delay:'+Math.random()*5+'s;';document.body.appendChild(s);}
+var ITEMS=['💗','💖','💕','💝','🌸','✨','🌹','🌷','⭐','💫','🩷','🫧'];
+for (var i=0;i<30;i++){var h=document.createElement('div');h.className='fheart';h.textContent=ITEMS[Math.floor(Math.random()*ITEMS.length)];h.style.cssText='left:'+Math.random()*100+'vw;animation-duration:'+(8+Math.random()*12)+'s;animation-delay:'+Math.random()*18+'s;font-size:'+(10+Math.random()*18)+'px;';document.body.appendChild(h);}
+for (var i=0;i<20;i++){var f=document.createElement('div');f.className='firefly';var dx=(Math.random()-.5)*160,dy=(Math.random()-.5)*160,dx2=(Math.random()-.5)*160,dy2=(Math.random()-.5)*160;f.style.cssText='left:'+Math.random()*100+'vw;top:'+Math.random()*100+'vh;--dx:'+dx+'px;--dy:'+dy+'px;--dx2:'+dx2+'px;--dy2:'+dy2+'px;animation-duration:'+(4+Math.random()*6)+'s;animation-delay:'+Math.random()*8+'s;';document.body.appendChild(f);}
+
+/* ── Toast & Copy ── */
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function copyText(){var name=document.querySelector('.sig-area span')?document.querySelector('.sig-area span').textContent:'';var msg=document.querySelector('.message-body').innerText;navigator.clipboard.writeText('To my dearest Varalakshmi,\n\nI\'m truly, deeply sorry…\n\n'+msg+'\n\nForever yours with love,\n'+name).then(function(){showToast('💌 Letter copied!');}).catch(function(){showToast('Could not copy.');});}
+</script>
+</body>
+</html>
